@@ -5,13 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Entity
 @Table(name = "location")
+@JsonPropertyOrder({ "locationID", "locationName", "address", "city", "country","phone","zipcode","timezone" })
 public class Location {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "locationID", nullable = false, unique = true)
 	private Integer locationID;
 	
@@ -23,10 +32,7 @@ public class Location {
 	
 	@Column(name = "city", nullable=false)
 	private String city;
-	
-	@Column(name = "country", nullable=false)
-	private String country;
-	
+
 	@Column(name = "phone", nullable = true)
 	private String phone;
 	
@@ -34,9 +40,20 @@ public class Location {
 	private String zipcode;
 	
 	@Column(name = "timezone", nullable=false)
-	private Integer timezone;
+	private Double timezone;
 	
+	@ManyToOne()
+    @JoinColumn(name = "countryID", referencedColumnName = "countryID")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Country country;
 	
+	public Country getCountry() {
+		return country;
+	}
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+
 	public Integer getLocationID() {
 		return locationID;
 	}
@@ -61,12 +78,7 @@ public class Location {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
+	
 	public String getPhone() {
 		return phone;
 	}
@@ -79,28 +91,13 @@ public class Location {
 	public void setzipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
-	public Integer gettimezone() {
+	public Double gettimezone() {
 		return timezone;
 	}
-	public void settimezone(Integer timezone) {
+	public void settimezone(Double timezone) {
 		this.timezone = timezone;
 	}
 	
-	
-public Location() {
-		
-	}
-
-
-public Location(String locationName, String address, String city, String country, String phone, String zipcode, int timezone) {
-	this.locationname = locationName;
-	this.address = address;
-	this.city = city;
-	this.country = country;
-	this.phone = phone;
-	this.zipcode = zipcode;
-	this.timezone = timezone;
-		
-}
+	public Location() {}
 
 }

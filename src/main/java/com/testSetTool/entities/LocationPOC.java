@@ -2,26 +2,28 @@ package com.testSetTool.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Entity
 @Table(name = "location_poc")
+@JsonPropertyOrder({ "id","location", "contactName", "email", "phone", "country","title" })
 public class LocationPOC {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ipocid", nullable = false, unique = true)
-	private Integer ipocid;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false, unique = true)
+	private Integer id;
 	
-	@Column(name = "contactName", nullable=false)
+	@Column(name = "contactname", nullable=false)
 	private String contactname;
 	
 	@Column(name = "email", nullable=true)
@@ -30,22 +32,28 @@ public class LocationPOC {
 	@Column(name = "phone", nullable=true)
 	private String phone;
 	
-	@Column(name = "title", nullable=false)
+	@Column(name = "title", nullable=true)
 	private String title;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "locationID", nullable = false)
-	 @JsonIgnore
-	private Location locationID;
+	@ManyToOne()
+    @JoinColumn(name = "locationID", referencedColumnName = "locationID")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Location location;
 
-
-
-	public Integer getIpocid() {
-		return ipocid;
+	public Location getLocation() {
+		return location;
 	}
 
-	public void setIpocid(Integer ipocid) {
-		this.ipocid = ipocid;
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getContactName() {
@@ -79,26 +87,15 @@ public class LocationPOC {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public Location getLocationID() {
-		return locationID;
-	}
-
-	public void setLocationID(Location locationID) {
-		this.locationID = locationID;
-	}
 	
-	
-	public LocationPOC() {
-		
-	}
+	public LocationPOC() {}
 
-	public LocationPOC(String  contactname , String email, String phone, String title, Location locationID) {
-		this.contactname = contactname;
+	public LocationPOC(String  contactName , String email, String phone, String title, Location location) {
+		this.contactname = contactName;
 		this.email = email;
 		this.phone = phone;
 		this.title = title;
-		this.locationID = locationID;
+		this.location = location;
 		
 	}
 
