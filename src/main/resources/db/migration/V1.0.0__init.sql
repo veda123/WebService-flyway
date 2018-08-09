@@ -5,20 +5,20 @@
 -- -----------------------------------------------------
 -- Schema test_set_tool_db
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `test_set_tool_db` ;
+-- DROP SCHEMA IF EXISTS `test_set_tool_db` ;
 
 -- -----------------------------------------------------
 -- Schema test_set_tool_db
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `test_set_tool_db` DEFAULT CHARACTER SET utf8 ;
-USE `test_set_tool_db` ;
+-- CREATE SCHEMA IF NOT EXISTS `test_set_tool_db` DEFAULT CHARACTER SET utf8 ;
+-- USE `test_set_tool_db` ;
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`equipment_type`
+-- Table `equipment_type`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`equipment_type` ;
+DROP TABLE IF EXISTS `equipment_type` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`equipment_type` (
+CREATE TABLE IF NOT EXISTS `equipment_type` (
   `equipmentTypeID` INT(11) NOT NULL AUTO_INCREMENT,
   `equipmentType` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`equipmentTypeID`))
@@ -34,11 +34,11 @@ INSERT INTO `equipment_type` VALUES (5,'Tool');
 INSERT INTO `equipment_type` VALUES (6,'Calibrated');
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`equipment`
+-- Table `equipment`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`equipment` ;
+DROP TABLE IF EXISTS `equipment` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`equipment` (
+CREATE TABLE IF NOT EXISTS `equipment` (
   `equipmentID` INT(11) NOT NULL AUTO_INCREMENT,
   `equipmentname` VARCHAR(50) NOT NULL,
   `equipmentPartNumber` VARCHAR(50) NOT NULL,
@@ -47,22 +47,22 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`equipment` (
   PRIMARY KEY (`equipmentID`),
   CONSTRAINT `equipmenTypeID`
     FOREIGN KEY (`equipmenttypeid`)
-    REFERENCES `test_set_tool_db`.`equipment_type` (`equipmentTypeID`)
+    REFERENCES `equipment_type` (`equipmentTypeID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `equipmenTypeID_idx` ON `test_set_tool_db`.`equipment` (`equipmenttypeid` ASC);
+CREATE INDEX `equipmenTypeID_idx` ON `equipment` (`equipmenttypeid` ASC);
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`bill_of_materials`
+-- Table `bill_of_materials`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`bill_of_materials` ;
+DROP TABLE IF EXISTS `bill_of_materials` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`bill_of_materials` (
+CREATE TABLE IF NOT EXISTS `bill_of_materials` (
   `billid` INT(11) NOT NULL AUTO_INCREMENT,
   `manufacture` VARCHAR(100) NOT NULL,
   `quantity` INT(11) NOT NULL,
@@ -72,28 +72,28 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`bill_of_materials` (
   PRIMARY KEY (`billid`),
   CONSTRAINT `EqipForeign`
     FOREIGN KEY (`equipmentid`)
-    REFERENCES `test_set_tool_db`.`equipment` (`equipmentID`)
+    REFERENCES `equipment` (`equipmentID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `EquipPArtFK`
     FOREIGN KEY (`equipment_partid`)
-    REFERENCES `test_set_tool_db`.`equipment` (`equipmentID`)
+    REFERENCES `equipment` (`equipmentID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `EqipForeign` ON `test_set_tool_db`.`bill_of_materials` (`equipmentid` ASC);
+CREATE INDEX `EqipForeign` ON `bill_of_materials` (`equipmentid` ASC);
 
-CREATE INDEX `EquipPArtFK_idx` ON `test_set_tool_db`.`bill_of_materials` (`equipment_partid` ASC);
+CREATE INDEX `EquipPArtFK_idx` ON `bill_of_materials` (`equipment_partid` ASC);
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`contract_type`
+-- Table `contract_type`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`contract_type` ;
+DROP TABLE IF EXISTS `contract_type` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`contract_type` (
+CREATE TABLE IF NOT EXISTS `contract_type` (
   `contract_type_id` INT(11) NOT NULL AUTO_INCREMENT,
   `contract_type` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`contract_type_id`))
@@ -107,11 +107,11 @@ INSERT INTO `contract_type` VALUES (3,'Standard Exchange');
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`country`
+-- Table `country`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`country` ;
+DROP TABLE IF EXISTS `country` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`country` (
+CREATE TABLE IF NOT EXISTS `country` (
   `countryID` INT(11) NOT NULL AUTO_INCREMENT,
   `shortname` VARCHAR(5) NOT NULL,
   `countryname` VARCHAR(200) NOT NULL,
@@ -370,11 +370,11 @@ INSERT INTO `country` VALUES (246,'ZW','Zimbabwe');
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`files`
+-- Table `files`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`files` ;
+DROP TABLE IF EXISTS `files` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`files` (
+CREATE TABLE IF NOT EXISTS `files` (
   `id` VARCHAR(255) NOT NULL,
   `data` LONGBLOB NULL DEFAULT NULL,
   `file_name` VARCHAR(255) NULL DEFAULT NULL,
@@ -385,11 +385,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`location`
+-- Table `location`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`location` ;
+DROP TABLE IF EXISTS `location` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`location` (
+CREATE TABLE IF NOT EXISTS `location` (
   `locationID` INT(11) NOT NULL AUTO_INCREMENT,
   `locationName` VARCHAR(50) NOT NULL,
   `address` VARCHAR(1000) NOT NULL,
@@ -401,22 +401,22 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`location` (
   PRIMARY KEY (`locationID`),
   CONSTRAINT `Country`
     FOREIGN KEY (`countryid`)
-    REFERENCES `test_set_tool_db`.`country` (`countryID`)
+    REFERENCES `country` (`countryID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `Country_idx` ON `test_set_tool_db`.`location` (`countryid` ASC);
+CREATE INDEX `Country_idx` ON `location` (`countryid` ASC);
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`equipment_inventory`
+-- Table `equipment_inventory`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`equipment_inventory` ;
+DROP TABLE IF EXISTS `equipment_inventory` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`equipment_inventory` (
+CREATE TABLE IF NOT EXISTS `equipment_inventory` (
   `inventory_id` INT(11) NOT NULL AUTO_INCREMENT,
   `manufacture_date` DATE NOT NULL,
   `owner` VARCHAR(50) NOT NULL,
@@ -429,29 +429,29 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`equipment_inventory` (
   PRIMARY KEY (`inventory_id`),
   CONSTRAINT `Equip`
     FOREIGN KEY (`equipmentid`)
-    REFERENCES `test_set_tool_db`.`equipment` (`equipmentID`)
+    REFERENCES `equipment` (`equipmentID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `LocationForeignKey`
     FOREIGN KEY (`locationid`)
-    REFERENCES `test_set_tool_db`.`location` (`locationID`)
+    REFERENCES `location` (`locationID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `Equip` ON `test_set_tool_db`.`equipment_inventory` (`equipmentid` ASC);
+CREATE INDEX `Equip` ON `equipment_inventory` (`equipmentid` ASC);
 
-CREATE INDEX `LocationForeignKey` ON `test_set_tool_db`.`equipment_inventory` (`locationid` ASC);
+CREATE INDEX `LocationForeignKey` ON `equipment_inventory` (`locationid` ASC);
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`customer`
+-- Table `customer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`customer` ;
+DROP TABLE IF EXISTS `customer` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`customer` (
+CREATE TABLE IF NOT EXISTS `customer` (
   `customer_id` INT(11) NOT NULL AUTO_INCREMENT,
   `customer_name` VARCHAR(50) NOT NULL,
   `contract_start_date` DATE NOT NULL,
@@ -463,47 +463,47 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`customer` (
   PRIMARY KEY (`customer_id`),
   CONSTRAINT `ContractType`
     FOREIGN KEY (`contract_type_id`)
-    REFERENCES `test_set_tool_db`.`contract_type` (`contract_type_id`)
+    REFERENCES `contract_type` (`contract_type_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `DbFileFK`
     FOREIGN KEY (`id`)
-    REFERENCES `test_set_tool_db`.`files` (`id`)
+    REFERENCES `files` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `inventoryFK`
     FOREIGN KEY (`inventory_id`)
-    REFERENCES `test_set_tool_db`.`equipment_inventory` (`inventory_id`)
+    REFERENCES `equipment_inventory` (`inventory_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `ContractType_idx` ON `test_set_tool_db`.`customer` (`contract_type_id` ASC);
+CREATE INDEX `ContractType_idx` ON `customer` (`contract_type_id` ASC);
 
-CREATE INDEX `inventoryFK_idx` ON `test_set_tool_db`.`customer` (`inventory_id` ASC);
+CREATE INDEX `inventoryFK_idx` ON `customer` (`inventory_id` ASC);
 
-CREATE INDEX `DbFK_idx` ON `test_set_tool_db`.`customer` (`id` ASC);
+CREATE INDEX `DbFK_idx` ON `customer` (`id` ASC);
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`hibernate_sequence`
+-- Table `hibernate_sequence`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`hibernate_sequence` ;
+DROP TABLE IF EXISTS `hibernate_sequence` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`hibernate_sequence` (
+CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
   `next_val` BIGINT(20) NULL DEFAULT NULL)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`repair_capability`
+-- Table `repair_capability`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`repair_capability` ;
+DROP TABLE IF EXISTS `repair_capability` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`repair_capability` (
+CREATE TABLE IF NOT EXISTS `repair_capability` (
   `capability_id` INT(11) NOT NULL AUTO_INCREMENT,
   `cmm` VARCHAR(50) NOT NULL,
   `lrupartnumber` VARCHAR(50) NOT NULL,
@@ -512,22 +512,22 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`repair_capability` (
   PRIMARY KEY (`capability_id`),
   CONSTRAINT `RepairCapa`
     FOREIGN KEY (`equipment_id`)
-    REFERENCES `test_set_tool_db`.`equipment` (`equipmentID`)
+    REFERENCES `equipment` (`equipmentID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `RepairCapa_idx` ON `test_set_tool_db`.`repair_capability` (`equipment_id` ASC);
+CREATE INDEX `RepairCapa_idx` ON `repair_capability` (`equipment_id` ASC);
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`location_capability`
+-- Table `location_capability`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`location_capability` ;
+DROP TABLE IF EXISTS `location_capability` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`location_capability` (
+CREATE TABLE IF NOT EXISTS `location_capability` (
   `location_capid` INT(11) NOT NULL AUTO_INCREMENT,
   `established_date` VARCHAR(255) NOT NULL,
   `locationid` INT(11) NOT NULL,
@@ -535,29 +535,29 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`location_capability` (
   PRIMARY KEY (`location_capid`),
   CONSTRAINT `LocationFK`
     FOREIGN KEY (`locationid`)
-    REFERENCES `test_set_tool_db`.`location` (`locationID`)
+    REFERENCES `location` (`locationID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `RepairFK`
     FOREIGN KEY (`capability_id`)
-    REFERENCES `test_set_tool_db`.`repair_capability` (`capability_id`)
+    REFERENCES `repair_capability` (`capability_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `LocationFK` ON `test_set_tool_db`.`location_capability` (`locationid` ASC);
+CREATE INDEX `LocationFK` ON `location_capability` (`locationid` ASC);
 
-CREATE INDEX `RepairFK` ON `test_set_tool_db`.`location_capability` (`capability_id` ASC);
+CREATE INDEX `RepairFK` ON `location_capability` (`capability_id` ASC);
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`location_poc`
+-- Table `location_poc`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`location_poc` ;
+DROP TABLE IF EXISTS `location_poc` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`location_poc` (
+CREATE TABLE IF NOT EXISTS `location_poc` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `contactname` VARCHAR(100) NOT NULL,
   `email` VARCHAR(100) NULL DEFAULT NULL,
@@ -567,22 +567,22 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`location_poc` (
   PRIMARY KEY (`id`),
   CONSTRAINT `LOCATION`
     FOREIGN KEY (`locationid`)
-    REFERENCES `test_set_tool_db`.`location` (`locationID`)
+    REFERENCES `location` (`locationID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `LOCATION` ON `test_set_tool_db`.`location_poc` (`locationid` ASC);
+CREATE INDEX `LOCATION` ON `location_poc` (`locationid` ASC);
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`repair_tools`
+-- Table `repair_tools`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`repair_tools` ;
+DROP TABLE IF EXISTS `repair_tools` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`repair_tools` (
+CREATE TABLE IF NOT EXISTS `repair_tools` (
   `repair_tool_id` INT(11) NOT NULL AUTO_INCREMENT,
   `quantity` INT(11) NOT NULL,
   `equipment_id` INT(11) NULL DEFAULT NULL,
@@ -590,29 +590,29 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`repair_tools` (
   PRIMARY KEY (`repair_tool_id`),
   CONSTRAINT `TollFK_2`
     FOREIGN KEY (`capability_id`)
-    REFERENCES `test_set_tool_db`.`repair_capability` (`capability_id`)
+    REFERENCES `repair_capability` (`capability_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `ToolFk_1`
     FOREIGN KEY (`equipment_id`)
-    REFERENCES `test_set_tool_db`.`equipment` (`equipmentID`)
+    REFERENCES `equipment` (`equipmentID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `ToolFk_1` ON `test_set_tool_db`.`repair_tools` (`equipment_id` ASC);
+CREATE INDEX `ToolFk_1` ON `repair_tools` (`equipment_id` ASC);
 
-CREATE INDEX `TollFK_2` ON `test_set_tool_db`.`repair_tools` (`capability_id` ASC);
+CREATE INDEX `TollFK_2` ON `repair_tools` (`capability_id` ASC);
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`roles`
+-- Table `roles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`roles` ;
+DROP TABLE IF EXISTS `roles` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`roles` (
+CREATE TABLE IF NOT EXISTS `roles` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(60) NOT NULL,
   PRIMARY KEY (`id`))
@@ -620,9 +620,9 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE UNIQUE INDEX `uk_roles_name` ON `test_set_tool_db`.`roles` (`name` ASC);
+CREATE UNIQUE INDEX `uk_roles_name` ON `roles` (`name` ASC);
 
-CREATE UNIQUE INDEX `UK_nb4h0p6txrmfc0xbrd1kglp9t` ON `test_set_tool_db`.`roles` (`name` ASC);
+CREATE UNIQUE INDEX `UK_nb4h0p6txrmfc0xbrd1kglp9t` ON `roles` (`name` ASC);
 
 
 INSERT INTO `roles` VALUES (5,'ROLE_ADMIN');
@@ -630,11 +630,11 @@ INSERT INTO `roles` VALUES (4,'ROLE_USER');
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`tps`
+-- Table `tps`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`tps` ;
+DROP TABLE IF EXISTS `tps` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`tps` (
+CREATE TABLE IF NOT EXISTS `tps` (
   `tps_id` INT(11) NOT NULL AUTO_INCREMENT,
   `checksum` VARCHAR(50) NOT NULL,
   `checksum_type` VARCHAR(50) NOT NULL,
@@ -648,22 +648,22 @@ CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`tps` (
   PRIMARY KEY (`tps_id`),
   CONSTRAINT `Capability`
     FOREIGN KEY (`capability_id`)
-    REFERENCES `test_set_tool_db`.`repair_capability` (`capability_id`)
+    REFERENCES `repair_capability` (`capability_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `Capability` ON `test_set_tool_db`.`tps` (`capability_id` ASC);
+CREATE INDEX `Capability` ON `tps` (`capability_id` ASC);
 
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`users`
+-- Table `users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`users` ;
+DROP TABLE IF EXISTS `users` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(40) NOT NULL,
   `username` VARCHAR(15) NOT NULL,
@@ -676,34 +676,34 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE UNIQUE INDEX `uk_users_username` ON `test_set_tool_db`.`users` (`username` ASC);
+CREATE UNIQUE INDEX `uk_users_username` ON `users` (`username` ASC);
 
-CREATE UNIQUE INDEX `uk_users_email` ON `test_set_tool_db`.`users` (`email` ASC);
+CREATE UNIQUE INDEX `uk_users_email` ON `users` (`email` ASC);
 
 
 INSERT INTO `users` VALUES (1,'admin','admin','admin@us.thalesgroup.com','$2a$10$q06tNBsQkn5uLaiKEbWA8OXNTyPWAxGl7sxSCC.F3vfH.wakiG.SS','2018-06-01 18:37:49','2018-06-01 18:37:49');
 
 -- -----------------------------------------------------
--- Table `test_set_tool_db`.`user_roles`
+-- Table `user_roles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `test_set_tool_db`.`user_roles` ;
+DROP TABLE IF EXISTS `user_roles` ;
 
-CREATE TABLE IF NOT EXISTS `test_set_tool_db`.`user_roles` (
+CREATE TABLE IF NOT EXISTS `user_roles` (
   `user_id` BIGINT(20) NOT NULL,
   `role_id` BIGINT(20) NOT NULL,
   PRIMARY KEY (`user_id`, `role_id`),
   CONSTRAINT `fk_user_roles_role_id`
     FOREIGN KEY (`role_id`)
-    REFERENCES `test_set_tool_db`.`roles` (`id`)
+    REFERENCES `roles` (`id`)
     ON DELETE CASCADE,
   CONSTRAINT `fk_user_roles_user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `test_set_tool_db`.`users` (`id`)
+    REFERENCES `users` (`id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `fk_user_roles_role_id` ON `test_set_tool_db`.`user_roles` (`role_id` ASC);
+CREATE INDEX `fk_user_roles_role_id` ON `user_roles` (`role_id` ASC);
 
 INSERT INTO `user_roles` VALUES (1,5);
 
