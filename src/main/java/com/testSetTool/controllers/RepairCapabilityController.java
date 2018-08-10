@@ -32,39 +32,40 @@ public class RepairCapabilityController {
 	private EquipmentRepository equipmentRepository;
 	@Autowired
 	private RepairCapabilityRepository capabilityRepository;
-	
+
 	@GetMapping("/repairCapability")
-	public List<RepairCapability> getRepairCapability(){	
+	public List<RepairCapability> getRepairCapability(){
 		return capabilityRepository.findAll();
 	}
-	
+
 	@GetMapping("/repairCapability/{id}")
 	public RepairCapability getRepairCapabilityById(@PathVariable("id") Integer id) {
 		return capabilityRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("RepairCapability Id " + id + " not found"));
 	}
-	
+
 	@PostMapping("/repairCapability/{equipmentID}")
 	public Optional<Object> createRepairCapability(@PathVariable("equipmentID") Integer equipmentID,
-			                          @Valid @RequestBody RepairCapability repairCapability) {
+												   @Valid @RequestBody RepairCapability repairCapability) {
 		return equipmentRepository.findById(equipmentID).map(equipment-> {
 			repairCapability.setEquipment(equipment);
-			return capabilityRepository.save(repairCapability);	
-        });
+			return capabilityRepository.save(repairCapability);
+		});
 	}
-	
+
 	@PutMapping("/repairCapability/{id}")
 	public Optional<Object> updateRepairCapability(@PathVariable (value="id")Integer id,
-		      								  @Valid @RequestBody RepairCapability CapabilityRequest) {
+												   @Valid @RequestBody RepairCapability CapabilityRequest) {
 		if(!capabilityRepository.existsById(id)) {
 			throw new ResourceNotFoundException("Id " + id + "not found");
 		}
-        return capabilityRepository.findById(id).map(repairCapability -> {
-        	repairCapability.setCMM(CapabilityRequest.getCMM());
-        	repairCapability.setLRUPartNumber(CapabilityRequest.getLRUPartnumber());
-        	return capabilityRepository.save(repairCapability);	       
-        });
-    }
-	
+		return capabilityRepository.findById(id).map(repairCapability -> {
+			repairCapability.setCMM(CapabilityRequest.getCMM());
+			repairCapability.setLRUPartNumber(CapabilityRequest.getLRUPartnumber());
+			repairCapability.setLrudescription(CapabilityRequest.getLrudescription());
+			return capabilityRepository.save(repairCapability);
+		});
+	}
+
 	@DeleteMapping("/repairCapability/{id}")
 	public Optional<Object> deleteRepairCapability(@PathVariable (value="id")Integer id) {
 		if(!capabilityRepository.existsById(id)) {
@@ -72,9 +73,9 @@ public class RepairCapabilityController {
 		}
 		return capabilityRepository.findById(id).map(repairCapability -> {
 			capabilityRepository.delete(repairCapability);
-            return ResponseEntity.ok().build();
-        });
-    }
-	
-	
+			return ResponseEntity.ok().build();
+		});
+	}
+
+
 }

@@ -19,18 +19,27 @@ public class RepairCapability {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "capabilityId", nullable = false, unique = true)
 	private Integer capabilityId;
-	
+
 	@Column(name = "lrupartnumber", nullable=false)
 	private String lrupartnumber;
-	
+
+	@Column(name = "lrudescription", nullable=false)
+	private String lrudescription;
+
 	@Column(name = "CMM", nullable=false)
 	private String CMM;
-	
+
 	@ManyToOne()
-    @JoinColumn(name = "equipmentId", referencedColumnName = "equipmentID")
+	@JoinColumn(name = "equipmentId", referencedColumnName = "equipmentID")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Equipment equipment;
-	
+
+	public String getLrudescription() {
+		return lrudescription;
+	}
+	public void setLrudescription(String lrudescription) {
+		this.lrudescription = lrudescription;
+	}
 	public Integer getCapabilityId() {
 		return capabilityId;
 	}
@@ -55,7 +64,7 @@ public class RepairCapability {
 	public void setEquipment(Equipment equipment) {
 		this.equipment = equipment;
 	}
-	
+
 	public RepairCapability() {}
 
 }
