@@ -84,7 +84,7 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `EqipForeign` ON `bill_of_materials` (`equipmentid` ASC);
+CREATE INDEX `EqipForeignKey` ON `bill_of_materials` (`equipmentid` ASC);
 
 CREATE INDEX `EquipPArtFK_idx` ON `bill_of_materials` (`equipment_partid` ASC);
 
@@ -441,9 +441,9 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `Equip` ON `equipment_inventory` (`equipmentid` ASC);
+CREATE INDEX `EquipKey` ON `equipment_inventory` (`equipmentid` ASC);
 
-CREATE INDEX `LocationForeignKey` ON `equipment_inventory` (`locationid` ASC);
+CREATE INDEX `LocationFreKey` ON `equipment_inventory` (`locationid` ASC);
 
 
 -- -----------------------------------------------------
@@ -547,9 +547,9 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `LocationFK` ON `location_capability` (`locationid` ASC);
+CREATE INDEX `LocFKK` ON `location_capability` (`locationid` ASC);
 
-CREATE INDEX `RepairFK` ON `location_capability` (`capability_id` ASC);
+CREATE INDEX `RepairCapFK` ON `location_capability` (`capability_id` ASC);
 
 
 -- -----------------------------------------------------
@@ -574,7 +574,7 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `LOCATION` ON `location_poc` (`locationid` ASC);
+CREATE INDEX `LOCATIONKey` ON `location_poc` (`locationid` ASC);
 
 
 -- -----------------------------------------------------
@@ -602,9 +602,9 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `ToolFk_1` ON `repair_tools` (`equipment_id` ASC);
+CREATE INDEX `ToolFork_1` ON `repair_tools` (`equipment_id` ASC);
 
-CREATE INDEX `TollFK_2` ON `repair_tools` (`capability_id` ASC);
+CREATE INDEX `TollForK_2` ON `repair_tools` (`capability_id` ASC);
 
 
 -- -----------------------------------------------------
@@ -655,7 +655,7 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `Capability` ON `tps` (`capability_id` ASC);
+CREATE INDEX `CapabilityForK` ON `tps` (`capability_id` ASC);
 
 
 -- -----------------------------------------------------
@@ -703,7 +703,7 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `fk_user_roles_role_id` ON `user_roles` (`role_id` ASC);
+CREATE INDEX `fk_user_rol_id` ON `user_roles` (`role_id` ASC);
 
 INSERT INTO `user_roles` VALUES (1,5);
 
